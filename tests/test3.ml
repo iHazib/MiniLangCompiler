@@ -1,0 +1,3 @@
+let x = 10;
+let z = x + y;
+print z;

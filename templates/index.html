@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MiniLang Online Compiler</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .editor-area { font-family: 'Courier New', monospace; height: 300px; background: #2d2d2d; color: #f8f8f2; }
+        .output-box { background: #ffffff; border: 1px solid #ddd; padding: 15px; border-radius: 5px; min-height: 100px; white-space: pre-wrap; font-family: monospace; }
+        .section-title { font-weight: bold; margin-top: 20px; color: #333; }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h2 class="mb-4 text-center">DHA Suffa University: MiniLang Compiler</h2>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <label class="section-title">Source Code:</label>
+                <textarea id="codeInput" class="form-control editor-area" placeholder="let x = 10;&#10;print x;">let x = 10;&#10;let y = 20;&#10;let z = x + y;&#10;print z;</textarea>
+                <button id="compileBtn" class="btn btn-primary mt-3 w-100">Compile & Run</button>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="section-title">Abstract Syntax Tree (AST):</div>
+                <div id="astOutput" class="output-box"></div>
+                
+                <div class="section-title">Symbol Table:</div>
+                <div id="symOutput" class="output-box"></div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="section-title">Intermediate Code (TAC):</div>
+                <div id="tacOutput" class="output-box" style="background: #eef;"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="section-title">Target Code (Stack VM):</div>
+                <div id="stackOutput" class="output-box" style="background: #efe;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('compileBtn').onclick = async function() {
+            const code = document.getElementById('codeInput').value;
+            const formData = new FormData();
+            formData.append('code', code);
+
+            const response = await fetch('/compile', { method: 'POST', body: formData });
+            const data = await response.json();
+
+            if (data.error) {
+                alert(data.error);
+            } else {
+                document.getElementById('astOutput').innerText = data.ast;
+                document.getElementById('symOutput').innerText = data.symbol_table;
+                document.getElementById('tacOutput').innerText = data.tac;
+                document.getElementById('stackOutput').innerText = data.stack_code;
+            }
+        };
+    </script>
+</body>
+</html>

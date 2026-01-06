@@ -1,0 +1,29 @@
+### Python specific ###
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+ENV/
+
+### PLY (Compiler) Generated Files ###
+src/parsetab.py
+src/parser.out
+parsetab.py
+parser.out
+
+### IDEs and Editors ###
+.vscode/
+.idea/
+*.swp
+*.swo
+
+### System Files ###
+.DS_Store
+Thumbs.db
+
+### Documentation/Output ###
+*.log
+*.aux
+*.toc
